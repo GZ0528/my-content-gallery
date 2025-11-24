@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多媒体内容展廊 - 1个内容</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            text-align: center; color: white; margin-bottom: 40px; padding: 20px;
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .content-card {
+            background: white; border-radius: 15px; padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s;
+        }
+        .content-card:hover { transform: translateY(-5px); }
+        .content-title {
+            font-size: 1.3em; color: #333; margin-bottom: 10px;
+            border-bottom: 2px solid #667eea; padding-bottom: 8px;
+        }
+        .content-description { color: #666; margin-bottom: 15px; line-height: 1.5; }
+        .media-container { width: 100%; margin: 10px 0; }
+        .media-container video, .media-container audio { width: 100%; border-radius: 8px; }
+        .media-container img { width: 100%; border-radius: 8px; max-height: 300px; object-fit: cover; }
+        .text-content { background: #f8f9fa; padding: 15px; border-radius: 8px; white-space: pre-wrap; }
+        .pdf-link { display: block; text-align: center; padding: 12px; background: #e74c3c; color: white; 
+                    text-decoration: none; border-radius: 8px; margin: 10px 0; }
+        .qr-section { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; margin-top: 10px; }
+        .qr-code { max-width: 120px; margin: 8px auto; }
+        .type-badge {
+            display: inline-block; padding: 4px 8px; background: #3498db; color: white;
+            border-radius: 12px; font-size: 0.8em; margin-bottom: 8px;
+        }
+        .file-info { font-size: 0.9em; color: #888; margin: 5px 0; }
+        .filters { text-align: center; margin-bottom: 20px; }
+        .filter-btn {
+            padding: 8px 16px; margin: 0 5px; background: rgba(255,255,255,0.2); 
+            color: white; border: none; border-radius: 20px; cursor: pointer;
+        }
+        .filter-btn.active { background: white; color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 多媒体内容展廊</h1>
+            <p>共 1 个内容 - 扫描二维码查看</p>
+            <p style="opacity: 0.8;">最后更新: 2025-11-24 12:10</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterContent('all')">全部</button>
+<button class="filter-btn" onclick="filterContent('video')">🎬 video (1)</button>
+
+        </div>
+
+        <div class="content-grid" id="contentGrid">
+
+            <div class="content-card" data-type="video" id="content1">
+                <div class="type-badge">🎬 video</div>
+                <h3 class="content-title">#1 公司介绍视频</h3>
+                <p class="content-description">无</p>
+                <div class="file-info">文件名: shili.mp4</div>
+                <div class="file-info">更新时间: 2025-11-24 12:09</div>
+
+                <div class="media-container">
+                    <video controls playsinline>
+                        <source src="https://raw.githubusercontent.com/GZ0528/my-content-gallery/main/files/shili.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
+                </div>
+
+                <div class="qr-section">
+                    <p style="margin-bottom: 8px;"><strong>📱 扫码查看</strong></p>
+                    <img class="qr-code" src="qr_codes/qr_公司介绍视频.png" alt="二维码">
+                    <p style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                        qr_公司介绍视频.png
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function filterContent(type) {
+            const cards = document.querySelectorAll('.content-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // 更新按钮状态
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 过滤内容
+            cards.forEach(card => {
+                if (type === 'all' || card.dataset.type === type) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 检查URL锚点并滚动到对应内容
+        if (window.location.hash) {
+            const contentId = window.location.hash.replace('#content', '');
+            setTimeout(() => {
+                const element = document.getElementById(`content${contentId}`);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
